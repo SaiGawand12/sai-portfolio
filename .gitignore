@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# personal assets (add back manually if you want to commit)
+# public/sai-cv.pdf
+# public/sai.png

@@ -14,9 +14,23 @@ const projects = [
     year: "2025",
     color: "#e4ede4",
     stat: "475ms P99",
+    live: "",
+    github: "https://github.com/saigawand/ondc-discovery-engine",
   },
   {
     num: "02",
+    title: "Finvo",
+    slug: "finvo",
+    tags: ["Full Stack", "SaaS", "AI", "Fintech"],
+    desc: "AI-powered billing SaaS for Indian freelancers. Cash flow forecasting, Razorpay payments, and a Claude-powered negotiation assistant.",
+    year: "2025",
+    color: "#fef3e2",
+    stat: "AI · Fintech",
+    live: "https://finvo-web.vercel.app/",
+    github: "https://github.com/SaiGawand12/InvoiceOS",
+  },
+  {
+    num: "03",
     title: "E-Commerce Platform",
     slug: "e-commerce-platform",
     tags: ["Full-Stack", "React", "Node.js"],
@@ -24,28 +38,42 @@ const projects = [
     year: "2025",
     color: "#e8e4f5",
     stat: "Full-Stack",
-  },
-  {
-    num: "03",
-    title: "SaaS Dashboard",
-    slug: "saas-dashboard",
-    tags: ["UI/UX", "Next.js"],
-    desc: "Analytics dashboard with live charts, RBAC, and a dark/light design system.",
-    year: "2024",
-    color: "#f5f0e4",
-    stat: "Design System",
+    live: "",
+    github: "https://github.com/saigawand/e-commerce-platform",
   },
   {
     num: "04",
-    title: "Mobile App Design",
-    slug: "mobile-app-design",
-    tags: ["Figma", "Prototyping"],
-    desc: "Health & wellness app — research, wireframes, hi-fi prototype, handoff.",
-    year: "2024",
-    color: "#e4f0f5",
-    stat: "UX Research",
+    title: "Durg Suruchi Wada",
+    slug: "durg-suruchi",
+    tags: ["React", "Next.js", "Web Design"],
+    desc: "Restaurant website for an authentic Maharashtrian eatery in Alibag — menu, gallery, and location.",
+    year: "2025",
+    color: "#fdf0e0",
+    stat: "Web Design",
+    live: "https://durg-suruchi.vercel.app",
+    github: "",
   },
 ];
+
+function ExternalLinks({ project, className }: { project: typeof projects[0]; className?: string }) {
+  if (!project.live && !project.github) return null;
+  return (
+    <div className={className}>
+      {project.live && (
+        <a href={project.live} target="_blank" rel="noopener noreferrer"
+          className="font-mono text-[10px] tracking-widest uppercase text-gray-400 hover:text-gray-900 border border-gray-200 hover:border-gray-900 px-2 py-0.5 rounded-full transition-colors">
+          Live ↗
+        </a>
+      )}
+      {project.github && (
+        <a href={project.github} target="_blank" rel="noopener noreferrer"
+          className="font-mono text-[10px] tracking-widest uppercase text-gray-400 hover:text-gray-900 border border-gray-200 hover:border-gray-900 px-2 py-0.5 rounded-full transition-colors">
+          GH ↗
+        </a>
+      )}
+    </div>
+  );
+}
 
 function ProjectRow({ project, index }: { project: typeof projects[0]; index: number }) {
   const ref = useRef(null);
@@ -65,9 +93,9 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
         animate={inView ? { scaleX: 1 } : {}}
         transition={{ duration: 0.7, delay: index * 0.08 }} />
 
-      <TransitionLink
-        href={`/projects/${project.slug}`}
-        className="group relative block"
+      {/* Wrapper: relative so external links can sit on top of the TransitionLink */}
+      <div
+        className="relative"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -77,69 +105,74 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
           animate={{ opacity: hovered ? 1 : 0, scale: hovered ? 1 : 0.98 }}
           transition={{ duration: 0.25 }} />
 
-        <div className="py-6 md:py-8 px-2 md:px-4 grid grid-cols-12 gap-4 items-center">
+        <TransitionLink href={`/projects/${project.slug}`} className="block">
+          <div className="py-6 md:py-8 px-2 md:px-4 grid grid-cols-12 gap-4 items-center">
 
-          {/* Number */}
-          <div className="col-span-2 md:col-span-1">
-            <motion.span
-              className="font-mono text-xs tracking-widest text-gray-300"
-              animate={{ color: hovered ? "#6b7280" : "#d1d5db" }}
-              transition={{ duration: 0.2 }}>
-              {project.num}
-            </motion.span>
-          </div>
+            {/* Number */}
+            <div className="col-span-2 md:col-span-1">
+              <motion.span
+                className="font-mono text-xs tracking-widest text-gray-300"
+                animate={{ color: hovered ? "#6b7280" : "#d1d5db" }}
+                transition={{ duration: 0.2 }}>
+                {project.num}
+              </motion.span>
+            </div>
 
-          {/* Title + tags */}
-          <div className="col-span-10 md:col-span-5 flex flex-col gap-2">
-            <motion.h3
-              className="font-serif font-bold text-gray-900 leading-tight"
-              style={{ fontSize: "clamp(1.2rem, 2.5vw, 2rem)" }}
-              animate={{ x: hovered ? 6 : 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
-              {project.title}
-            </motion.h3>
-            <div className="flex flex-wrap gap-1.5">
-              {project.tags.map(tag => (
-                <span key={tag}
-                  className="text-[11px] md:text-xs px-2.5 py-0.5 rounded-full border border-gray-200 text-gray-400 font-mono tracking-wide">
-                  {tag}
-                </span>
-              ))}
+            {/* Title + tags */}
+            <div className="col-span-10 md:col-span-5 flex flex-col gap-2">
+              <motion.h3
+                className="font-serif font-bold text-gray-900 leading-tight"
+                style={{ fontSize: "clamp(1.2rem, 2.5vw, 2rem)" }}
+                animate={{ x: hovered ? 6 : 0 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                {project.title}
+              </motion.h3>
+              <div className="flex flex-wrap gap-1.5">
+                {project.tags.map(tag => (
+                  <span key={tag}
+                    className="text-[11px] md:text-xs px-2.5 py-0.5 rounded-full border border-gray-200 text-gray-400 font-mono tracking-wide">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Desc — desktop only */}
+            <div className="hidden md:block md:col-span-4">
+              <p className="text-sm text-gray-400 leading-relaxed">{project.desc}</p>
+            </div>
+
+            {/* Year + stat — desktop */}
+            <div className="hidden md:flex md:col-span-2 flex-col items-end gap-2">
+              <motion.span
+                className="font-mono text-xs font-bold tracking-wide px-2.5 py-1 rounded-full"
+                style={{ backgroundColor: project.color, color: "#374151" }}
+                animate={{ scale: hovered ? 1.05 : 1 }}
+                transition={{ duration: 0.2 }}>
+                {project.stat}
+              </motion.span>
+              <span className="font-mono text-xs text-gray-300">{project.year}</span>
+            </div>
+
+            {/* Mobile: year */}
+            <div className="col-span-12 md:hidden flex items-center justify-between mt-1">
+              <span className="font-mono text-xs text-gray-300">{project.year}</span>
             </div>
           </div>
+        </TransitionLink>
 
-          {/* Desc — desktop only */}
-          <div className="hidden md:block md:col-span-4">
-            <p className="text-sm text-gray-400 leading-relaxed">{project.desc}</p>
-          </div>
-
-          {/* Year + stat + arrow */}
-          <div className="hidden md:flex md:col-span-2 flex-col items-end gap-1">
-            <motion.span
-              className="font-mono text-xs font-bold tracking-wide px-2.5 py-1 rounded-full"
-              style={{ backgroundColor: project.color, color: "#374151" }}
-              animate={{ scale: hovered ? 1.05 : 1 }}
-              transition={{ duration: 0.2 }}>
-              {project.stat}
-            </motion.span>
-            <span className="font-mono text-xs text-gray-300">{project.year}</span>
-          </div>
-
-          {/* Mobile: year + arrow */}
-          <div className="col-span-12 md:hidden flex items-center justify-between mt-1">
-            <span className="font-mono text-xs text-gray-300">{project.year}</span>
-            <span className="text-gray-400 text-sm">→</span>
-          </div>
-        </div>
+        {/* External links — outside TransitionLink to avoid nested <a> */}
+        <ExternalLinks project={project} className="absolute bottom-4 right-14 hidden md:flex items-center gap-2 z-10" />
+        <ExternalLinks project={project} className="absolute bottom-3 right-2 flex md:hidden items-center gap-2 z-10" />
 
         {/* Hover arrow — desktop */}
         <motion.div
-          className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-gray-900 text-white text-sm"
+          className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-gray-900 text-white text-sm pointer-events-none"
           animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : 12, scale: hovered ? 1 : 0.8 }}
           transition={{ duration: 0.25 }}>
           →
         </motion.div>
-      </TransitionLink>
+      </div>
     </motion.div>
   );
 }

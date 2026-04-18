@@ -26,7 +26,6 @@ const timeline = [
   { year: "2023", title: "First Shipped Product",  sub: "End-to-end e-commerce — designed, built, deployed solo.", tag: "Milestone" },
   { year: "2024", title: "ONDC Discovery Engine",  sub: "Distributed systems. 100+ providers. P99 < 500ms.", tag: "Engineering" },
   { year: "Mar 2026", title: "Budhi Trade",         sub: "Software Engineering internship — building real-world products.", tag: "Internship" },
-  { year: "2026", title: "Open to Work",            sub: "Targeting SDE, Frontend, UI/UX & Backend roles.", tag: "Now" },
 ];
 
 const stats = [

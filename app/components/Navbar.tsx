@@ -72,7 +72,7 @@ export default function Navbar() {
       >
         <div className={`flex items-center justify-between transition-all duration-500 ${
           scrolled
-            ? "bg-white/85 backdrop-blur-xl border border-gray-200/80 rounded-2xl px-5 py-3 shadow-sm"
+            ? "bg-white/95 border border-gray-200/80 rounded-2xl px-5 py-3 shadow-sm"
             : "bg-transparent px-0 py-0"
         }`}>
 
@@ -87,7 +87,7 @@ export default function Navbar() {
           </motion.a>
 
           {/* Desktop center — pill nav */}
-          <nav className="hidden md:flex items-center bg-white/70 backdrop-blur-md border border-gray-200/70 rounded-full px-2 py-1.5 gap-0.5">
+          <nav className="hidden md:flex items-center bg-white/90 border border-gray-200/70 rounded-full px-2 py-1.5 gap-0.5">
             {links.map(({ label, href }, i) => (
               <motion.div key={label} className="relative"
                 initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
@@ -125,7 +125,7 @@ export default function Navbar() {
           </motion.div>
 
           {/* Mobile hamburger */}
-          <button className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-gray-200"
+          <button className="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5 rounded-full bg-white border border-gray-200"
             onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
             <motion.span className="block w-4 h-0.5 bg-gray-700 rounded-full"
               animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 8 : 0 }} transition={{ duration: 0.2 }} />
@@ -141,7 +141,7 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            className="fixed inset-x-4 top-20 z-40 bg-white/95 backdrop-blur-xl rounded-3xl border border-gray-100 shadow-2xl overflow-hidden"
+            className="fixed inset-x-4 top-20 z-40 bg-white rounded-3xl border border-gray-100 shadow-2xl overflow-hidden"
             initial={{ opacity: 0, y: -20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.96 }}

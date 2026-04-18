@@ -34,19 +34,30 @@ function RevealLayer({ containerRef, graySrc }: {
     let mouse = { x: -999, y: -999 };
     let isOver = false;
     let raf: number;
-    const resize = () => { canvas.width = container.offsetWidth; canvas.height = container.offsetHeight; };
+    let dirty = false;
+
+    const resize = () => { canvas.width = container.offsetWidth; canvas.height = container.offsetHeight; dirty = true; };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(container);
+
     const onMove = (e: MouseEvent) => {
       const r = container.getBoundingClientRect();
       mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
-      isOver = true;
+      if (!isOver) { isOver = true; dirty = true; }
+      dirty = true;
     };
-    const onLeave = () => { isOver = false; };
+    const onLeave = () => {
+      if (isOver) { isOver = false; dirty = true; }
+    };
     container.addEventListener("mousemove", onMove);
     container.addEventListener("mouseleave", onLeave);
+
     const draw = () => {
+      raf = requestAnimationFrame(draw);
+      if (!dirty) return;
+      dirty = false;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (isOver && img.complete && img.naturalWidth > 0) {
         const scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
@@ -69,10 +80,9 @@ function RevealLayer({ containerRef, graySrc }: {
           ctx.fill(); ctx.restore();
         }
       }
-      raf = requestAnimationFrame(draw);
     };
-    img.onload = () => { raf = requestAnimationFrame(draw); };
-    if (img.complete) raf = requestAnimationFrame(draw);
+    img.onload = () => { dirty = true; raf = requestAnimationFrame(draw); };
+    if (img.complete) { dirty = true; raf = requestAnimationFrame(draw); }
     return () => { cancelAnimationFrame(raf); ro.disconnect(); container.removeEventListener("mousemove", onMove); container.removeEventListener("mouseleave", onLeave); };
   }, [containerRef, graySrc]);
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 3 }} />;
@@ -153,7 +163,7 @@ export default function Hero() {
           <span className="font-mono text-[11px] md:text-[12px] tracking-[0.25em] uppercase text-gray-500">© 2025</span>
           <span className="font-mono text-[11px] md:text-[12px] tracking-[0.25em] uppercase text-gray-400">Bangalore, India</span>
         </motion.div>
-        <motion.div className="flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full px-3 py-1.5 pointer-events-auto"
+        <motion.div className="flex items-center gap-2 bg-white/90 border border-gray-200 rounded-full px-3 py-1.5 pointer-events-auto"
           initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -244,7 +254,7 @@ export default function Hero() {
       <div className="absolute hidden md:flex flex-col gap-2 z-20" style={{ bottom: "7%", right: "3%" }}>
         {socials.map(({ label, icon: Icon, href }, i) => (
           <motion.a key={label} href={href} target="_blank" rel="noopener noreferrer"
-            className="group flex items-center gap-3 bg-white/80 backdrop-blur-md border border-gray-200 rounded-full font-medium text-gray-700 hover:bg-white hover:border-gray-300 hover:text-gray-900 hover:shadow-lg transition-all"
+            className="group flex items-center gap-3 bg-white/90 border border-gray-200 rounded-full font-medium text-gray-700 hover:bg-white hover:border-gray-300 hover:text-gray-900 hover:shadow-lg transition-all"
             style={{ height: "50px", padding: "0 18px 0 14px", fontSize: "14px", minWidth: "158px" }}
             initial={{ x: 50, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.7 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -282,7 +292,7 @@ export default function Hero() {
         <motion.div className="flex flex-wrap gap-2"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.0 }}>
           {["UI/UX", "React", "Golang", "Open to work"].map(tag => (
-            <span key={tag} className="text-[11px] px-3 py-1 rounded-full border border-gray-300/70 text-gray-500 bg-white/50 backdrop-blur-sm">{tag}</span>
+            <span key={tag} className="text-[11px] px-3 py-1 rounded-full border border-gray-300/70 text-gray-500 bg-white/70">{tag}</span>
           ))}
         </motion.div>
         {/* Mobile socials */}
@@ -290,7 +300,7 @@ export default function Hero() {
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}>
           {socials.map(({ label, icon: Icon, href }) => (
             <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full px-3 py-1.5 text-gray-500 hover:text-gray-800 transition-colors">
+              className="flex items-center gap-1.5 bg-white/90 border border-gray-200 rounded-full px-3 py-1.5 text-gray-500 hover:text-gray-800 transition-colors">
               <Icon size={14} />
             </a>
           ))}

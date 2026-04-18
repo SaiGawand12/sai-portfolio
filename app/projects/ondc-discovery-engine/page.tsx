@@ -90,7 +90,7 @@ export default function OndcPage() {
       >
         <Link
           href="/"
-          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200"
+          className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm"
         >
           ← Back
         </Link>
@@ -170,7 +170,7 @@ export default function OndcPage() {
             transition={{ duration: 0.7, delay: 0.9 }}
           >
             {heroStats.map(({ v, suffix, l }) => (
-              <div key={l} className="bg-white/60 backdrop-blur-sm px-6 py-5">
+              <div key={l} className="bg-white/80 px-6 py-5">
                 <p className="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-none mb-1">
                   <Counter to={v} suffix={suffix} />
                 </p>

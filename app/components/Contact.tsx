@@ -102,7 +102,7 @@ export default function Contact() {
           {[
             { label: "Status",        value: "Available for work",  sub: "Full-time · Freelance · Collab", dot: true },
             { label: "Location",      value: "Bangalore, India",    sub: "UTC +5:30 · IST" },
-            { label: "Response time", value: "Within 24 hours",     sub: "Usually much faster" },
+            { label: "Response time", value: "Within 12 hours",     sub: "Usually much faster" },
           ].map((card) => (
             <StaggerItem key={card.label}>
               <div className="rounded-2xl border border-gray-100 bg-white p-6 flex flex-col gap-1">
